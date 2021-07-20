@@ -10,9 +10,12 @@ import { ListHeader } from "../../components/ListHeader";
 import { Profile } from "../../components/Profile";
 import { Background } from "../../components/Background";
 import { styles } from "./style";
+import { useNavigation } from "@react-navigation/native";
 
 export function Home() {
   const [category, setCategory] = useState("");
+
+  const navigation = useNavigation();
 
   const appointments = [
     {
@@ -49,29 +52,35 @@ export function Home() {
     categoryId === category ? setCategory("") : setCategory(categoryId);
   }
 
+  function handleAppointmentDetails() {
+    navigation.navigate("AppointmentDetails");
+  }
+
   return (
     <Background>
-        <View style={styles.heading}>
-          <Profile />
-          <ButtonAdd />
-        </View>
+      <View style={styles.heading}>
+        <Profile />
+        <ButtonAdd />
+      </View>
 
-        <CategorySelect
-          categorySelected={category}
-          setCategory={handleCategorySelect}
+      <CategorySelect
+        categorySelected={category}
+        setCategory={handleCategorySelect}
+      />
+      <View style={styles.content}>
+        <ListHeader title="Partidas agendadas" subtitle="Total: 6" />
+
+        <FlatList
+          data={appointments}
+          style={styles.matches}
+          ItemSeparatorComponent={() => <ListDivider />}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Appointment onPress={handleAppointmentDetails} data={item} />
+          )}
         />
-        <View style={styles.content}>
-          <ListHeader title="Partidas agendadas" subtitle="Total: 6" />
-
-          <FlatList
-            data={appointments}
-            style={styles.matches}
-            ItemSeparatorComponent={() => <ListDivider />}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Appointment data={item} />}
-          />
-        </View>
+      </View>
     </Background>
   );
 }

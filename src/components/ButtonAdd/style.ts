@@ -3,11 +3,11 @@ import { theme } from "../../global/styles/theme";
 
 export const styles = StyleSheet.create({
   container: {
-    width: "77%",
-    height: 1,
-    backgroundColor: theme.colors.secondary40,
-    marginTop: 2,
-    marginVertical: 31,
-    alignSelf: "flex-end",
+    height: 48,
+    width: 48,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

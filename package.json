@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "license": "UNLICENSED"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.0",
@@ -21,10 +22,12 @@
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-auth-session": "~3.3.1",
+    "expo-cli": "^4.9.1",
     "expo-font": "~9.2.1",
     "expo-linear-gradient": "~9.2.0",
     "expo-random": "~11.2.0",
     "expo-status-bar": "~1.0.4",
+    "firebase": "8.2.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",

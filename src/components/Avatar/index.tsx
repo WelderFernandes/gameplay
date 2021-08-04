@@ -1,13 +1,14 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'react-native';
+import { EvilIcons } from "@expo/vector-icons";
 
-import { styles } from './styles';
-import { theme } from '../../global/styles/theme';
+import { styles } from "./styles";
+import { theme } from "../../global/styles/theme";
 
 type Props = {
   urlImage: string;
-}
+};
 
 export function Avatar({ urlImage }: Props) {
   const { secondary50, secondary70 } = theme.colors;
@@ -17,11 +18,11 @@ export function Avatar({ urlImage }: Props) {
       style={styles.container}
       colors={[secondary50, secondary70]}
     >
-      <Image 
-        source={{ uri: urlImage }}
-        style={styles.avatar}
-      />
+      {urlImage ? (
+        <Image source={{ uri: urlImage }} style={styles.avatar} />
+      ) : (
+        <EvilIcons name="user" size={45} color={theme.colors.highlight} />
+      )}
     </LinearGradient>
-  )
-
+  );
 }

@@ -2,7 +2,7 @@
   "expo": {
     "name": "GamePlay",
     "slug": "GamePlay",
-    "version": "2.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "gameplay",
@@ -24,7 +24,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.bobbyfernandes.GamePlay",
-      "versionCode": 1
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

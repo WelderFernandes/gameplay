@@ -34,13 +34,15 @@ export function Home() {
   }
 
   async function loadAppointments() {
-    // const response = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
-    // const storage: AppointmentProps[] = response ? JSON.parse(response) : [];
-
     firestore.collection("appointments").onSnapshot((snapshot) => {
       const appointments: AppointmentProps = [];
       snapshot.docChanges().forEach((appointment) => {
         if (appointment.type === "added") {
+          if (appointment.doc.data().guild) {
+            appointments.push(appointment.doc.data());
+          }
+        }
+        if (appointment.type === "removed") {
           if (appointment.doc.data().guild) {
             appointments.push(appointment.doc.data());
           }
@@ -61,7 +63,7 @@ export function Home() {
   useFocusEffect(
     useCallback(() => {
       loadAppointments();
-    }, [category])
+    }, [category, loading])
   );
 
   return (

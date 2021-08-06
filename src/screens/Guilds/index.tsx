@@ -31,24 +31,21 @@ export function Guilds({ handleGuildSelect }: Props){
 
   return (
     <View style={styles.container}>
-      {
-        loading ? <Load /> :
-        <FlatList 
+      {loading ? (
+        <Load />
+      ) : (
+        <FlatList
           data={guilds}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Guild 
-              data={item} 
-              onPress={() => handleGuildSelect(item)}
-            />
-          )}    
+            <Guild data={item} onPress={() => handleGuildSelect(item)} />
+          )}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <ListDivider isCentered />}
           ListHeaderComponent={() => <ListDivider isCentered />}
-          contentContainerStyle={{ paddingBottom: 68, paddingTop: 103 }}
           style={styles.guilds}
         />
-      }
+      )}
     </View>
   );
 }

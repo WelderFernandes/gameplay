@@ -90,20 +90,12 @@ export function AppointmentCreate() {
       description,
     };
 
-    // const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
-    // const appointments = storage ? JSON.parse(storage) : [];
-
-    // await AsyncStorage.setItem(
-    //   COLLECTION_APPOINTMENTS,
-    //   JSON.stringify([...appointments, newAppointment])
-    // ).then(() => {
     firestore
       .collection("appointments")
       .add(newAppointment)
       .then(() => {
         navigation.navigate("Home");
       });
-    // });
   }
 
   return (
@@ -133,10 +125,10 @@ export function AppointmentCreate() {
           <View style={styles.form}>
             <RectButton onPress={handleOpenGuilds}>
               <View style={styles.select}>
-                {guild.icon ? (
-                  <GuildIcon guildId={guild.id} iconId={guild.icon} />
-                ) : (
+                {guild.icon === "null" ? (
                   <View style={styles.image} />
+                ) : (
+                  <GuildIcon guildId={guild.id} iconId={guild.icon} />
                 )}
 
                 <View style={styles.selectBody}>

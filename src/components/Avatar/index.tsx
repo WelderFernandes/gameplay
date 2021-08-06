@@ -10,6 +10,7 @@ type Props = {
   urlImage: string;
 };
 
+
 export function Avatar({ urlImage }: Props) {
   const { secondary50, secondary70 } = theme.colors;
 
@@ -18,7 +19,7 @@ export function Avatar({ urlImage }: Props) {
       style={styles.container}
       colors={[secondary50, secondary70]}
     >
-      {urlImage ? (
+      {urlImage.search("null") === -1 ? (
         <Image source={{ uri: urlImage }} style={styles.avatar} />
       ) : (
         <EvilIcons name="user" size={45} color={theme.colors.highlight} />

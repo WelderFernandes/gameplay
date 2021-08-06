@@ -53,28 +53,28 @@ export function AppointmentDetails() {
   const navigation = useNavigation();
 
   async function fetchGuildWidget() {
-    try {
-      const response = await api.get(
-        `/guilds/${guildSelected.guild.id}/widget.json`
-      );
 
-      setWidget(response.data);
-    } catch {
-      Alert.alert(
-        "Verifique seu servidor",
-        "Verifique as configurações do servidor. Será que o Widget está habilitado?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => navigation.navigate("Home"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => navigation.navigate("Home") },
-        ]
-      );
-    } finally {
-      setLoading(false);
-    }
+
+    await api
+      .get(`/guilds/${guildSelected.guild.id}/widget.json`)
+      .then((response) => {
+        setWidget(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        Alert.alert(
+          "Verifique seu servidor",
+          "Verifique as configurações do servidor. Será que o Widget está habilitado?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => navigation.navigate("Home"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => navigation.navigate("Home") },
+          ]
+        );
+      });
   }
 
   function handleShareInvitation() {

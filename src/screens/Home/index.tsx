@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { View, FlatList } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { CategorySelect } from "../../components/CategorySelect";
 import { Appointment, AppointmentProps } from "../../components/Appointment";
@@ -13,11 +12,10 @@ import { Profile } from "../../components/Profile";
 import { Load } from "../../components/Load";
 
 import { styles } from "./styles";
-import { COLLECTION_APPOINTMENTS } from "../../configs/database";
+import { firestore } from "../../configs/firebase";
 
 export function Home() {
   const [category, setCategory] = useState("");
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState<AppointmentProps[]>([]);
 
@@ -36,24 +34,35 @@ export function Home() {
   }
 
   async function loadAppointments() {
-    const response = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
-    const storage: AppointmentProps[] = response ? JSON.parse(response) : [];
+    // const response = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+    // const storage: AppointmentProps[] = response ? JSON.parse(response) : [];
 
-    if (category) {
-      setAppointments(storage.filter((item) => item.category === category));
-    } else {
-      setAppointments(storage);
-    }
+    firestore.collection("appointments").onSnapshot((snapshot) => {
+      const appointments: AppointmentProps = [];
+      snapshot.docChanges().forEach((appointment) => {
+        if (appointment.type === "added") {
+          if (appointment.doc.data().guild) {
+            appointments.push(appointment.doc.data());
+          }
+        }
+      });
+      if (category) {
+        setAppointments(
+          appointments.filter((item) => item.category === category)
+        );
+      } else {
+        setAppointments(appointments);
+      }
+    });
 
     setLoading(false);
   }
+
   useFocusEffect(
     useCallback(() => {
       loadAppointments();
     }, [category])
   );
-
-  console.log(users);
 
   return (
     <Background>

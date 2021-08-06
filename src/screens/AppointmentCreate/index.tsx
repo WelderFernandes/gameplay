@@ -28,6 +28,7 @@ import { GuildProps } from "../../components/Guild";
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
 import { Guilds } from "../Guilds";
+import { firestore, firebase } from "../../configs/firebase";
 
 export function AppointmentCreate() {
   const [category, setCategory] = useState("");
@@ -60,14 +61,6 @@ export function AppointmentCreate() {
   }
 
   async function handleSave() {
-    const newAppointment = {
-      id: uuid.v4(),
-      guild,
-      category,
-      date: `${day}/${month} às ${hour}:${minute}h`,
-      description,
-    };
-
     if (
       category === "" ||
       !guild ||
@@ -89,16 +82,28 @@ export function AppointmentCreate() {
         { cancelable: false }
       );
     }
+    const newAppointment = {
+      id: uuid.v4(),
+      guild,
+      category,
+      date: `${day}/${month} às ${hour}:${minute}h`,
+      description,
+    };
 
-    const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
-    const appointments = storage ? JSON.parse(storage) : [];
+    // const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+    // const appointments = storage ? JSON.parse(storage) : [];
 
-    await AsyncStorage.setItem(
-      COLLECTION_APPOINTMENTS,
-      JSON.stringify([...appointments, newAppointment])
-    );
-
-    navigation.navigate("Home");
+    // await AsyncStorage.setItem(
+    //   COLLECTION_APPOINTMENTS,
+    //   JSON.stringify([...appointments, newAppointment])
+    // ).then(() => {
+    firestore
+      .collection("appointments")
+      .add(newAppointment)
+      .then(() => {
+        navigation.navigate("Home");
+      });
+    // });
   }
 
   return (

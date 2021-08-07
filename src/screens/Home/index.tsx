@@ -14,6 +14,8 @@ import { Load } from "../../components/Load";
 import { styles } from "./styles";
 import { firestore } from "../../configs/firebase";
 
+import { AdMobBanner } from "expo-ads-admob";
+
 export function Home() {
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
@@ -103,6 +105,13 @@ export function Home() {
           />
         </>
       )}
+
+      <AdMobBanner
+        bannerSize="fullBanner"
+        adUnitID="ca-app-pub-9510736489804870/5532578145"
+        servePersonalizedAds
+        onDidFailToReceiveAdWithError={(err) => console.log(err)}
+      />
     </Background>
   );
 }

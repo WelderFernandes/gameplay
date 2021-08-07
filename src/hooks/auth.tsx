@@ -8,6 +8,7 @@ import React, {
 
 import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { firestore } from "../configs/firebase";
 
 const { SCOPE } = process.env;
 const { CLIENT_ID } = process.env;
@@ -75,7 +76,16 @@ function AuthProvider({ children }: AuthProviderProps) {
           token: params.access_token,
         };
 
-        await AsyncStorage.setItem(COLLECTION_USER, JSON.stringify(userData));
+        const addUserFireBase = await firestore
+          .collection("users")
+          .add(userData);
+
+        await AsyncStorage.setItem(
+          COLLECTION_USER,
+          JSON.stringify(userData)
+        ).then(() => ({
+          addUserFireBase,
+        }));
         setUser(userData);
       }
     } catch {

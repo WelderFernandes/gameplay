@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { RectButton } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import uuid from 'react-native-uuid';
+import { RectButton } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import uuid from "react-native-uuid";
 
 import {
   Text,
@@ -14,7 +13,6 @@ import {
   Alert,
 } from "react-native";
 
-import { COLLECTION_APPOINTMENTS } from "../../configs/database";
 import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
 
@@ -29,6 +27,7 @@ import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
 import { Guilds } from "../Guilds";
 import { firestore, firebase } from "../../configs/firebase";
+import { ModalSuccess } from "../../components/ModalSuccess";
 
 export function AppointmentCreate() {
   const [category, setCategory] = useState("");
@@ -40,6 +39,7 @@ export function AppointmentCreate() {
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
   const [description, setDescription] = useState("");
+  const [openSuccess, setSuccess] = useState(false);
 
   const navigation = useNavigation();
 
@@ -93,8 +93,10 @@ export function AppointmentCreate() {
     firestore
       .collection("appointments")
       .add(newAppointment)
-      .then(() => {
-        navigation.navigate("Home");
+      .then((res) => {
+        setSuccess(true);
+        // navigation.navigate("Home");
+        // setSuccess(true);
       });
   }
 
@@ -195,6 +197,8 @@ export function AppointmentCreate() {
       <ModalView visible={openGuildsModa} closeModal={handleCloseGuilds}>
         <Guilds handleGuildSelect={handleGuildSelect} />
       </ModalView>
+
+      <ModalSuccess visible={openSuccess} />
     </KeyboardAvoidingView>
   );
 }

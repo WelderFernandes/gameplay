@@ -106,12 +106,6 @@ export function Home() {
         </>
       )}
 
-      <AdMobBanner
-        bannerSize="fullBanner"
-        adUnitID="ca-app-pub-9510736489804870/5532578145"
-        servePersonalizedAds
-        onDidFailToReceiveAdWithError={(err) => console.log(err)}
-      />
     </Background>
   );
 }

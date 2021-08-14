@@ -30,7 +30,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.bobbyfernandes.GamePlay",
-      "versionCode": 3
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"
